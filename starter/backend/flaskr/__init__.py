@@ -26,7 +26,7 @@ def create_app(test_config=None):
   '''
   # Reference from the Udacity lesson "flask-cors"
   #   CORS(app)
-  cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+  CORS(app, resources={"/": {"origins": "*"}})
   '''
   @TODO: Use the after_request decorator to set Access-Control-Allow
   '''
@@ -103,20 +103,14 @@ def create_app(test_config=None):
       This endpoint deletes a specific question by the
       id given as a url parameter
       """
-      try:
-          question = Question.query.get(id)
-          question.delete()
+      Question.query.get(id).delete()
 
-          return jsonify({
-              'success': True,
-              'message': "Question successfully deleted",
-              'status': 200
-          })
-      except Exception:
-        return jsonify({
-          'success': False,
-          'status': 422
-          })
+      return jsonify({
+            'success': True,
+            'message': "Question successfully deleted",
+            'status': 200
+        })
+
   '''
   @TODO: 
   Create an endpoint to POST a new question, 
@@ -164,25 +158,18 @@ def create_app(test_config=None):
   only question that include that string within their question. 
   Try using the word "title" to start. 
   '''
-  @app.route('/questions/search', methods=['POST'])
-  def filter_questions():
-      """This endpoint returns questions from a search term. """
 
-      # Get search term from request data
-      data = request.get_json()
-      search_term = data.get('searchTerm', '')
-      # abort if search_term is empty with error code
-      if search_term == '':
-          abort(422)
-      try:    
-          search_data = Question.query.filter(Question.question.ilike(f'%{search_term}%'))  
-          return jsonify({
-            'success': True,
-            'questions': [qn.format() for qn in search_data],
-            'current_category': None
-          })
-      except Exception:
-           abort(404)      
+  @app.route('/search', methods=['POST'])
+  def search():
+   search_term = request.get_json()['searchTerm']
+   search_data = Question.query.filter(Question.question.ilike(f'%{search_term}%'))
+
+   return jsonify({
+     'questions': [q.format() for q in search_data],
+     'current_category': None
+   })
+
+
   '''
   @TODO: 
   Create a GET endpoint to get questions based on category. 

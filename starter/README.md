@@ -23,7 +23,7 @@ Navigate to the '/backend' directory and run the text file. The text file will i
 necessary packages for running our project file on local machine
 
 ```bash
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 ##### Key Dependencies
@@ -58,7 +58,7 @@ To run the tests, run
 dropdb trivia_test
 createdb trivia_test
 psql trivia_test < trivia.psql
-python3 test_flaskr.py
+python test_flaskr.py
 ```
 
 #### Frontend Dependencies
@@ -268,7 +268,7 @@ The following are the endpoints:
 - General:
   - returns questions that has the search substring
 
-- Testing Command: `curl http://127.0.0.1:5000/questions/search -X POST -H "Content-Type: application/json" -d '{"searchTerm": "Taj Mahal"}'`
+- Sample: `curl http://127.0.0.1:5000/questions/search -X POST -H "Content-Type: application/json" -d '{"searchTerm": "Taj Mahal"}'`
 ```json
 {
   "current_category": null, 
