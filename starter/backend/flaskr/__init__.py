@@ -142,12 +142,9 @@ def create_app(test_config=None):
         'message': 'Sucessfully posted questions',
         'status':200
         })
-
     except Exception:
-      return jsonify({
-        'success': False,
-        'status': 422
-        })
+          abort(422)
+
   '''
   @TODO: 
   Create a POST endpoint to get questions based on a search term. 
@@ -180,7 +177,7 @@ def create_app(test_config=None):
   '''
   @app.route('/categories/<int:category_id>/questions')
   def get_questions_by_category(category_id):
-    questions = Question.query.filter_by(category=category_id).all()
+    questions = Question.query.filter(Question.category==category_id).all()
     formatted_qns = [question.format() for question in questions]
     if len(formatted_qns) == 0:
       abort(404)
